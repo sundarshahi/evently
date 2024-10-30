@@ -2,9 +2,9 @@ import { json, urlencoded } from "body-parser";
 import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import swaggerUi from "swagger-ui-express";
 
 import routes from "./routes";
+import { setupSwagger } from "./config/swagger";
 
 export const createApp = (): Express => {
   const app = express();
@@ -21,10 +21,9 @@ export const createApp = (): Express => {
       return res.json({ ok: true });
     });
 
-  app.use("/api", routes);
+  setupSwagger(app);
 
-  // Swagger Documentation
-  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup());
+  app.use("/api", routes);
 
   return app;
 };

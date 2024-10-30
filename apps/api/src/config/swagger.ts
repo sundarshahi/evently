@@ -1,17 +1,29 @@
-import swaggerAutogen from "swagger-autogen";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import { Express } from "express";
 
 import { env } from "./env";
-import apiRoutes from "../routes";
 
-const doc = {
-  info: {
-    title: "My API",
-    description: "Description",
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Event Scheduling API",
+      version: "1.0.0",
+      description: "API documentation for the Event Scheduling System",
+    },
+    servers: [
+      {
+        url: env.BASE_URL,
+      },
+    ],
   },
-  host: env.BASE_URL,
+  apis: ["./src/routes/*.ts"],
 };
 
-const outputFile = "./swagger-output.json";
-const routes = [apiRoutes];
+const swaggerSpec = swaggerJsDoc(options);
 
-swaggerAutogen(outputFile, routes, doc);
+export function setupSwagger(app: Express) {
+  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  console.log("Swagger documentation available at /api-docs");
+}
