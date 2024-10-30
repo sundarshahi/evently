@@ -3,7 +3,8 @@ import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocs from "./config/swaggerConfig";
+
+import routes from "./routes";
 
 export const createApp = (): Express => {
   const app = express();
@@ -20,9 +21,10 @@ export const createApp = (): Express => {
       return res.json({ ok: true });
     });
 
+  app.use("/api", routes);
+
   // Swagger Documentation
-  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-  app.use("/api/events", []);
+  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup());
 
   return app;
 };
