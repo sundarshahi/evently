@@ -1,11 +1,13 @@
 {
-  "name": "with-docker",
+  "name": "evently",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
+    "dev:api":"turbo run dev --filter=api",
+    "build:api":"turbo run build --filter=api",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test"
