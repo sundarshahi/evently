@@ -12,3 +12,16 @@ export interface Event extends EventInput {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface ParticipantInput {
+  name: string;
+  email: string;
+  rsvp_status: RSVPStatus;
+  event_id: string;
+}
+
+export enum RSVPStatus {
+  accepted = "accepted",
+  declined = "declined",
+  pending = "pending",
+}
