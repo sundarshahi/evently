@@ -32,6 +32,11 @@ export const EventRepository = {
       orderBy: { start_time: "asc" },
     });
   },
+  findEventById: async (id: string): Promise<Event | null> => {
+    return prisma.event.findUnique({
+      where: { id },
+    });
+  },
   findOverlappingEvents: async (
     start: Date,
     end: Date,
