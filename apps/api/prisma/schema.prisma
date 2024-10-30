@@ -1,0 +1,40 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Event {
+  id           String        @id @default(uuid()) @db.Uuid
+  title        String        @db.VarChar(150)
+  description  String?       @db.VarChar(500)
+  start_time   DateTime
+  end_time     DateTime
+  time_zone    String
+  location     String?       @db.VarChar(255)
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  participants Participant[]
+
+  @@index([start_time, end_time])
+}
+
+model Participant {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @db.VarChar(100)
+  email       String     @unique @db.VarChar(255)
+  rsvp_status RSVPStatus
+  event_id    String     @db.Uuid
+  event       Event      @relation(fields: [event_id], references: [id])
+
+  @@index([event_id, rsvp_status])
+}
+
+enum RSVPStatus {
+  accepted
+  declined
+  pending
+}
