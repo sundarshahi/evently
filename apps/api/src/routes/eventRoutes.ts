@@ -4,6 +4,11 @@ import {
   listEventHandler,
 } from "../controllers/EventController";
 
+import {
+  rsvpToEventHandler,
+  listParticipantsOfEventHandler,
+} from "../controllers/ParticipantController";
+
 const router = Router();
 
 router.post("/", createEventHandler);
@@ -101,6 +106,91 @@ router.get("/", listEventHandler);
  *                     example: "Nepal"
  *       500:
  *         description: Internal server error
+ */
+
+router.post("/:eventId/rsvp/", rsvpToEventHandler);
+/**
+ * @swagger
+ * /api/events/{eventId}/rsvp:
+ *   post:
+ *     summary: Add a participant to an event
+ *     tags: [Participants]
+ *     parameters:
+ *       - in: path
+ *         name: eventId
+ *         required: true
+ *         description: The ID of the event to which the participant will be added
+ *         schema:
+ *           type: string
+ *           example: "9f77fca0-fdb5-4b9e-a112-fd7543a10f25"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "John Doe"
+ *               email:
+ *                 type: string
+ *                 example: "john.doe@example.com"
+ *               rsvp_status:
+ *                 type: string
+ *                 enum: [accepted, declined, pending]
+ *                 example: "pending"
+ *     responses:
+ *       201:
+ *         description: Participant added successfully
+ *       400:
+ *         description: Validation error
+ *       404:
+ *         description: Event not found
+ *       500:
+ *         description: Internal server error
+ */
+
+router.get("/:eventId/participants/", listParticipantsOfEventHandler);
+/**
+ * @swagger
+ * /api/events/{eventId}/participants:
+ *   get:
+ *     summary: Get participants of an event
+ *     tags: [Participants]
+ *     parameters:
+ *       - in: path
+ *         name: eventId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The event ID
+ *     responses:
+ *       200:
+ *         description: List of participants for the event
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     example: "1f2e4bda-b8e3-423d-b97c-9b5a18cfa6d1"
+ *                   name:
+ *                     type: string
+ *                     example: "John Doe"
+ *                   email:
+ *                     type: string
+ *                     example: "johndoe@example.com"
+ *                   rsvp_status:
+ *                     type: string
+ *                     example: "accepted"
+ *       404:
+ *         description: Event not found or has no participants
+ *       500:
+ *         description: Failed to fetch participants
  */
 
 export default router;
