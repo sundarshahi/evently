@@ -1,10 +1,10 @@
 import supertest from "supertest";
 import { describe, it, expect } from "@jest/globals";
-import { createServer } from "../app";
+import { createApp } from "../app";
 
 describe("server", () => {
   it("status check returns 200", async () => {
-    await supertest(createServer())
+    await supertest(createApp())
       .get("/status")
       .expect(200)
       .then((res) => {
@@ -13,7 +13,7 @@ describe("server", () => {
   });
 
   it("message endpoint says hello", async () => {
-    await supertest(createServer())
+    await supertest(createApp())
       .get("/message/jared")
       .expect(200)
       .then((res) => {
