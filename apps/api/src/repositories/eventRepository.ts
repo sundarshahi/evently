@@ -1,8 +1,7 @@
-import exp from "constants";
 import prisma from "../config/db";
 import { EventInput, Event } from "../types";
 
-const EventRepository = {
+const EventRepository: any = {
   createEvent: async (data: EventInput): Promise<Event> =>
     prisma.event.create({ data }),
 
