@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "docker:install": "docker-compose up",
+    "docker:uninstall": "docker-compose down",
+    "docker:restart": "docker-compose restart",
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",

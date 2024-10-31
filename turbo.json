@@ -1,17 +1,40 @@
 {
   "$schema": "https://turbo.build/schema.json",
+   "globalEnv": ["DATABASE_URL", "BASE_URL","PORT"],
   "tasks": {
-    "db:generate": {
-      "cache": false
-    },
-    "db:push": {
-      "cache": false
-    },
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
       "dependsOn": ["^db:generate","^build"],
       "env": ["NEXT_PUBLIC_API_HOST"]
+    },
+     "build:api": {
+      "dependsOn": ["^postinstall"],
+      "outputs": ["dist/**"]
+    },
+    "db:dev": {
+      "cache": false
+    },
+    "db:reset": {
+      "cache": false
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:deploy": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:pull": {
+      "cache": false
+    },
+    "db:studio": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
     },
     "test": {
       "outputs": ["coverage/**"],
@@ -27,5 +50,6 @@
     "clean": {
       "cache": false
     }
+    
   }
 }
