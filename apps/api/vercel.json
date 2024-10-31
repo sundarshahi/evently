@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/**/*.ts": {
-      "runtime": "node",
+      "runtime": "Node.js",
       "memory": 1024,
       "maxDuration": 10
     }
