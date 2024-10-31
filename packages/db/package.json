@@ -1,0 +1,23 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+ "exports": {
+    ".": "./src/index.ts"
+  } ,
+  "dependencies": {
+   "@prisma/client": "^5.21.1"
+  },
+  "devDependencies": {
+       "prisma": "^5.21.1"
+  },
+   "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "db:dev": "prisma migrate dev --name init",
+    "db:reset": "prisma migrate reset --force",
+    "db:deploy": "prisma migrate deploy",
+    "db:pull": "prisma db pull",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed"
+  }
+}

@@ -9,7 +9,7 @@ import {
   listParticipantsOfEventHandler,
 } from "../controllers/ParticipantController";
 
-const router = Router();
+const router: Router = Router();
 
 router.post("/", createEventHandler);
 /**

@@ -5,11 +5,11 @@
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^db:generate","^build"],
       "env": ["NEXT_PUBLIC_API_HOST"]
     },
      "build:api": {
-      "dependsOn": ["^preinstall"],
+      "dependsOn": ["^db:generate"],
       "outputs": ["dist/**"]
     },
     "test": {
@@ -22,6 +22,15 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:studio": {
+      "cache": false
     },
     "clean": {
       "cache": false

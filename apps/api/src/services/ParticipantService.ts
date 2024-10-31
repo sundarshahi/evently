@@ -1,4 +1,4 @@
-import { Participant } from "@prisma/client";
+import { Participant } from "@repo/db";
 
 import { ParticipantInput } from "../types";
 import { ParticipantRepository } from "../repositories/ParticipantRepository";

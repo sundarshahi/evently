@@ -1,14 +1,10 @@
 {
   "extends": "./base.json",
   "compilerOptions": {
-    "lib": ["ES2015"],
+    "lib": ["esnext"],
     "outDir": "./dist",
-    "rootDir": "../api",
-    "baseUrl": ".",
-    "paths": {
-      "@prisma/*": ["./prisma/*"]
-    }
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "prisma/seed.ts", "Dockerfile"],
-  "include": ["src/**/*.ts", "prisma"]
+  "include": ["src", "prisma"]
 }

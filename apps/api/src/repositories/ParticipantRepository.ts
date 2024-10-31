@@ -1,6 +1,7 @@
-import { Participant } from "@prisma/client";
+import { Participant } from "@repo/db";
 
-import prisma from "../../prisma";
+import prisma from "../config/db";
+
 import { ParticipantInput } from "../types";
 
 export const ParticipantRepository = {

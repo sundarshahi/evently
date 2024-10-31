@@ -1,4 +1,4 @@
-import prisma from "../../prisma";
+import prisma from "../config/db";
 import { EventInput, Event } from "../types";
 
 export const EventRepository = {
@@ -6,7 +6,7 @@ export const EventRepository = {
     prisma.event.create({ data }),
 
   createManyEvents: async (data: EventInput[]): Promise<void> => {
-    prisma.event.createMany({ data });
+    await prisma.event.createMany({ data });
   },
   updateEvent: async (
     id: string,
