@@ -1,9 +1,1 @@
-{
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "Node.js",
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
-}
+{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
