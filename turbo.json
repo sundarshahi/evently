@@ -1,10 +1,16 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^db:generate","^build"],
       "env": ["NEXT_PUBLIC_API_HOST"]
     },
     "test": {
