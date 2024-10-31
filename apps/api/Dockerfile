@@ -1,45 +1,44 @@
+# Stage 1: Install dependencies and build
 ARG NODE_VERSION=22
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-slim AS base
+
+# Set working directory
+WORKDIR /app
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy only the package.json, pnpm-lock.yaml, and turbo as dependency for caching
+COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./
+COPY ./apps/api/package.json ./apps/api/
+COPY ./packages/db/package.json ./packages/db/
+COPY ./packages/logger/package.json ./packages/logger/
+COPY ./package.json ./  
+
+# Install all dependencies
+RUN pnpm install 
+
+# Copy the rest of the repo files
+COPY . .
+
+# Build the necessary packages and apps
+RUN pnpm turbo run db:generate 
+RUN pnpm turbo run build --filter=api...
+
+# Stage 2: Final image for running the API
+FROM node:${NODE_VERSION}-slim
+
+# Set working directory
+WORKDIR /app
+
+
+COPY --from=base /app/apps/api/dist  /app/apps/api/dist
+COPY --from=base /app/apps/api/node_modules /app/apps/api/node_modules
 
 ENV NODE_ENV=production
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-
-COPY . /app
-WORKDIR /app
-
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-
-RUN pnpm install turbo --global
-
-FROM base AS builder
 
 
-RUN turbo prune api --docker
-
-# Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
-
-WORKDIR /app
-
-# First install dependencies (as they change less often)
-COPY --from=builder /app/out/json/ .
-RUN pnpm install
-
-# Build the project and its dependencies
-COPY --from=builder /app/out/full/ .
-
-
-RUN pnpm turbo build --filter=api
-
-FROM base AS runner
-WORKDIR /app
-
-# Don't run production as root
-RUN addgroup --system --gid 1001 expressjs
-RUN adduser --system --uid 1001 expressjs
-USER expressjs
-COPY --from=installer /app .
-
-CMD node apps/api/dist/src/index.js
+# Expose the port your API will run on
+EXPOSE 8000
+# CMD ["sh", "-c", "tail -f /dev/null"]
+CMD ["node", "/app/apps/api/dist/index.js"]

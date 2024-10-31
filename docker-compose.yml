@@ -17,10 +17,11 @@ services:
       context: .
       dockerfile: ./apps/api/Dockerfile
     restart: always
+    environment:
+      - .env
     ports:
-      - 3001:3001
-    networks:
-      - app_network
+      - 8000:8000
+   
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname

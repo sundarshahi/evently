@@ -1,7 +1,7 @@
 {
   "name": "@repo/db",
   "version": "0.0.0",
- "exports": {
+  "exports": {
     ".": "./src/index.ts"
   } ,
   "dependencies": {
