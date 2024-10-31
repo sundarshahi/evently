@@ -1,15 +1,4 @@
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "apps/api/package.json",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "apps/api/src/index.ts"  
-    }
-  ]
-}
+
+
+
+{ "version": 2, "builds": [ { "src": "apps/api/package.json", "use": "@vercel/node" } ], "routes": [ { "src": "/(.*)", "dest": "apps/api/src/index.ts"  , "methods": [ "GET", "POST", "PUT", "DELETE" ] } ] }
