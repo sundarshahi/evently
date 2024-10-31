@@ -1,4 +1,5 @@
-import prisma from "../../prisma";
+// import prisma from "../../prisma";
+let prisma: any;
 import { EventInput, Event } from "../types";
 
 export const EventRepository = {
