@@ -1,5 +1,5 @@
 import { EventInput, Event } from "../types";
-import { EventRepository } from "../repositories/EventRepository";
+import EventRepository from "../repositories/EventRepository";
 
 import { convertToUTC } from "../utils/datetime";
 
