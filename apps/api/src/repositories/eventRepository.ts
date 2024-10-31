@@ -1,4 +1,4 @@
-import { prisma } from "../config/db";
+import prisma from "../../prisma";
 import { EventInput, Event } from "../types";
 
 export const EventRepository = {

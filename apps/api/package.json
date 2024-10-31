@@ -2,20 +2,26 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
+   "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
-    "build": "npx prisma generate && tsc",
+    "postinstall": "prisma generate",
+    "build": "tsc",
     "clean": "rm -rf dist",
     "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "start": "node -r esbuild-register ./src/index.ts",
+    "test": "jest --detectOpenHandles",
+    "db:dev": "prisma migrate dev --name init",
+    "db:reset": "prisma migrate reset --force",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:migrate:reset": "prisma migrate reset",
-    "prisma:studio": "prisma studio",
-    "db:seed": "ts-node ./prisma/seed.ts",
-    "test": "jest --detectOpenHandles"
+    "db:deploy": "prisma migrate deploy",
+    "db:push": "prisma db push",
+    "db:pull": "prisma db pull",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed"
+
   },
   "jest": {
     "preset": "@repo/jest-presets/node"
