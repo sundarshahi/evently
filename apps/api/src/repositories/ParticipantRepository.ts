@@ -1,6 +1,6 @@
-import { Participant } from "@repo/db";
+import { Participant } from "@repo/db/client";
 
-import prisma from "../config/db";
+import prisma from "@repo/db";
 
 import { ParticipantInput } from "../types";
 

@@ -3,27 +3,35 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "docker:install": "docker-compose up",
-    "docker:uninstall": "docker-compose down",
-    "docker:restart": "docker-compose restart",
-    "build": "turbo run build",
-    "clean": "turbo run clean",
+    "build": "turbo run build --filter=@repo/web...",
+    "clean": "find . -name node_modules -o -name .next -o -name .turbo -o -name dist -type d -prune | xargs rm -rf",
+    "db-deploy": "turbo run db-deploy",
+    "db-studio": "pnpm prisma studio",
     "dev": "turbo run dev",
-    "dev:api":"turbo run dev --filter=api",
-    "build:api":"turbo run build --filter=api",
+    "dev:api": "turbo run dev --filter=@repo/api...",
+    "build:api": "turbo run build --filter=@repo/api...",
+    "env-check:common": "dotenv-checker --schema .env.example --env .env",
+    "dx": "turbo run dx",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "prisma": "pnpm --filter @repo/db exec prisma",
+    "docker-build-api": "docker build -t evently-api -f ./apps/api/Dockerfile .",
+    "docker-run-api": "docker run -p 80:80 evently-api",
+    "docker-stop-api": "docker ps --filter 'ancestor=evently-api' -q | xargs docker stop"
   },
-  "dependencies": {},
   "devDependencies": {
+    "dotenv-checker": "^1.1.7",
     "prettier": "^3.2.5",
     "turbo": "^2.2.3"
   },
   "engines": {
     "node": ">=14.0.0",
-    "npm": ">=7.0.0"
+    "npm": ">=7.0.0",
+    "pnpm": ">=8.0.0"
   },
-  "packageManager": "pnpm@8.11.0"
-
+  "packageManager": "pnpm@8.11.0",
+  "prisma": {
+    "schema": "packages/db/schema.prisma"
+  }
 }

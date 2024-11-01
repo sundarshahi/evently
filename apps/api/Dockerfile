@@ -1,44 +1,33 @@
-# Stage 1: Install dependencies and build
-ARG NODE_VERSION=22
-FROM node:${NODE_VERSION}-slim AS base
+FROM node:20-alpine as build
 
-# Set working directory
-WORKDIR /app
+ARG DATABASE_URL
+ARG BASE_URL
+
+WORKDIR /evently
 
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Copy only the package.json, pnpm-lock.yaml, and turbo as dependency for caching
-COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./
-COPY ./apps/api/package.json ./apps/api/
-COPY ./packages/db/package.json ./packages/db/
-COPY ./packages/logger/package.json ./packages/logger/
-COPY ./package.json ./  
+RUN set -eux;
 
-# Install all dependencies
-RUN pnpm install 
+ENV NODE_ENV="production"
+ENV DATABASE_URL=${DATABASE_URL}
+ENV BASE_URL=${BASE_URL}
 
-# Copy the rest of the repo files
 COPY . .
 
-# Build the necessary packages and apps
-RUN pnpm turbo run db:generate 
-RUN pnpm turbo run build --filter=api...
+RUN pnpm install
 
-# Stage 2: Final image for running the API
-FROM node:${NODE_VERSION}-slim
+# Build prisma schema and make sure that it is linked to api node_modules
+RUN pnpm --filter ./apps/api run  generate-schemas
+RUN rm -rf apps/api/node_modules
+RUN pnpm install 
+RUN pnpm add typescript --filter ./apps/api
 
-# Set working directory
-WORKDIR /app
-
-
-COPY --from=base /app/apps/api/dist  /app/apps/api/dist
-COPY --from=base /app/apps/api/node_modules /app/apps/api/node_modules
-
-ENV NODE_ENV=production
+RUN pnpm --filter ./apps/api run build    
 
 
-# Expose the port your API will run on
-EXPOSE 8000
-# CMD ["sh", "-c", "tail -f /dev/null"]
-CMD ["node", "/app/apps/api/dist/index.js"]
+EXPOSE 80
+
+CMD ["pnpm", "--filter", "./apps/api", "run", "start"]
+

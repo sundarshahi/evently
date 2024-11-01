@@ -2,15 +2,50 @@
   "$schema": "https://turbo.build/schema.json",
    "globalEnv": ["DATABASE_URL", "BASE_URL","PORT"],
   "tasks": {
-    "build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^db:generate","^build"],
-      "env": ["NEXT_PUBLIC_API_HOST"]
+    "@repo/db#build": {
+      "cache": false,
+      "dependsOn": ["^postinstall"]
     },
-     "build:api": {
-      "dependsOn": ["^db:generate"],
-      "outputs": ["dist/**"]
+     "@repo/db#db-migrate": {
+      "cache": false,
+      "dependsOn": ["@repo/db#db-up"],
+      "inputs": ["./schema.prisma", "./migrations/**/*.sql"]
+    },
+     "@repo/db#db-up": {
+      "cache": false
+    },
+    "@repo/api#build": {
+      "dependsOn": ["^build"],
+      "env": [
+        "NODE_ENV",
+        "PORT",
+        "DATABASE_URL",
+        "BASE_URL"
+      ]
+    },
+     "@repo/api#dx": {
+      "cache": false,
+      "dependsOn": ["@repo/db#dx"]
+    },
+     "@repo/db#dx": {
+      "cache": false,
+      "dependsOn": ["@repo/db#db-migrate"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+     "db-deploy": {
+      "cache": false,
+      "inputs": ["./migrations/**/*.sql", "./prisma/migrations/**/*.sql"]
+    },
+    "clean": {
+      "cache": false,
+      "outputs": ["dist/**", "build/**"]
+    },
+    "dx": {
+      "dependsOn": ["//#env-check:common"],
+      "cache": false
     },
     "test": {
       "outputs": ["coverage/**"],
@@ -23,17 +58,10 @@
       "cache": false,
       "persistent": true
     },
-    "db:generate": {
-      "cache": false
-    },
-    "db:push": {
-      "cache": false
-    },
-    "db:studio": {
-      "cache": false
-    },
-    "clean": {
-      "cache": false
+     "//#env-check:common": {
+      "cache": false,
+      "inputs": ["./.env.example", "./.env"],
+      "outputs": ["./.env"]
     }
     
   }
