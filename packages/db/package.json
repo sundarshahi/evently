@@ -4,7 +4,7 @@
   "private":true,
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules",
-    "build": "ts-node  ./auto-migrations.ts",
+    "build": "node -r esbuild-register ./auto-migrations.ts",
     "db-deploy": "pnpm prisma migrate deploy",
     "db-migrate": "pnpm prisma migrate dev",
     "db-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
@@ -16,15 +16,18 @@
     "dx": "pnpm db-setup",
     "generate-schemas": "prisma generate && prisma format",
     "postinstall": "pnpm generate-schemas",
-    "seed-app-store": "ts-node --transpile-only ./seed-app-store.ts",
-    "delete-app": "ts-node --transpile-only ./delete-app.ts",
-    "seed-insights": "ts-node --transpile-only ./seed-insights.ts"
+    "seed-app-store": "node -r esbuild-register ./seed-app-store.ts",
+    "delete-app": "node -r esbuild-register ./delete-app.ts",
+    "seed-insights": "node -r esbuild-register ./seed-insights.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",
     "dotenv": "^16.4.5",
-    "prisma": "^5.21.1",
-    "ts-node": "^10.9.2"
+    "prisma": "^5.21.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.1",
+    "esbuild-register": "^3.5.0"
   },
   "main": "index.ts",
   "types": "index.d.ts",

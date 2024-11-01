@@ -166,9 +166,13 @@ importers:
       prisma:
         specifier: ^5.21.1
         version: 5.21.1
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.17.5)(typescript@5.5.4)
+    devDependencies:
+      esbuild:
+        specifier: ^0.20.1
+        version: 0.20.2
+      esbuild-register:
+        specifier: ^3.5.0
+        version: 3.6.0(esbuild@0.20.2)
 
   packages/eslint-config:
     devDependencies:
