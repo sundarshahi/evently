@@ -1,9 +1,10 @@
 {
   "name": "@repo/db",
   "version": "0.0.0",
+  "private":true,
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules",
-    "build": "ts-node --transpile-only ./auto-migrations.ts",
+    "build": "ts-node  ./auto-migrations.ts",
     "db-deploy": "pnpm prisma migrate deploy",
     "db-migrate": "pnpm prisma migrate dev",
     "db-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
@@ -29,8 +30,5 @@
   "types": "index.d.ts",
   "files": [
     "client"
-  ],
-  "devDependencies": {
-    "run-s": "^0.0.0"
-  }
+  ]
 }

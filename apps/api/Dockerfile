@@ -22,12 +22,11 @@ RUN pnpm install
 RUN pnpm --filter ./apps/api run  generate-schemas
 RUN rm -rf apps/api/node_modules
 RUN pnpm install 
-RUN pnpm add typescript --filter ./apps/api
 
 RUN pnpm --filter ./apps/api run build    
 
 
 EXPOSE 80
 
-CMD ["pnpm", "--filter", "./apps/api", "run", "start"]
+CMD ["pnpm", "--filter", "./apps/api", "run", "start:prod"]
 
