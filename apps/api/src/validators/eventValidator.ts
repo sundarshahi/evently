@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-const validTimezones = [
-  "Europe/London",
-  "Asia/Kathmandu",
-  "America/New_York",
-] as const;
+import { validTimezones } from "../constant/timezones";
 
 const rruleRegex =
   /^(FREQ=(HOURLY|DAILY|WEEKLY|MONTHLY|YEARLY)(;INTERVAL=\d+)?(;UNTIL=\d{8}T\d{6}Z)?(;COUNT=\d+)?(;BYDAY=(MO|TU|WE|TH|FR|SA|SU)(,\s?(MO|TU|WE|TH|FR|SA|SU))*)?;?)+$/;
@@ -31,7 +27,7 @@ export const eventSchema = z
     description: z.string().max(500).optional(),
     start_time: utcDateString,
     end_time: utcDateString,
-    time_zone: z.enum(validTimezones, {
+    time_zone: z.string().refine((value) => validTimezones.includes(value), {
       message: "Must be a valid timezone string.",
     }),
     location: z.string().optional(),
