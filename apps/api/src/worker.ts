@@ -28,12 +28,15 @@ export const worker = createWorker("events", async (job: Job) => {
         instancesToCreate
       );
 
-    const overlappingStartTimes = overlappingInstances.map(
-      (instance) => instance.start_time
-    );
+    function isOverlapping(local: any, fromDb: any): boolean {
+      return (
+        local.startTime < fromDb.end_time && local.endTime > fromDb.start_time
+      );
+    }
 
     const instancesToInsert = instancesToCreate.filter(
-      (instance) => !overlappingStartTimes.includes(instance.startTime)
+      (local) =>
+        !overlappingInstances.some((fromDb) => isOverlapping(local, fromDb))
     );
 
     if (instancesToInsert.length > 0) {
