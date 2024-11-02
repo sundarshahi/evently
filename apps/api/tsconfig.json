@@ -6,8 +6,20 @@
     "target": "ESNext",
     "outDir": "./dist",
     "rootDir": "./src",
-    "sourceMap": false
+    "sourceMap": false,
+    "paths": {
+      "@/src/*": ["./src/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/repositories/*": ["./src/repositories/*"],
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/task/*": ["./src/task/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/validators/*": ["./src/validators/*"]
+    }
   },
+
   "exclude": ["./dist", "./node_modules", "next-i18next.config.js"],
   "include": ["./**/*.ts"]
 }

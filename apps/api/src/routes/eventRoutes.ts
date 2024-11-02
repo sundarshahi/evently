@@ -2,12 +2,12 @@ import { Router } from "express";
 import {
   createEventHandler,
   listEventHandler,
-} from "../controllers/EventController";
+} from "@/controllers/EventController";
 
 import {
   rsvpToEventHandler,
   listParticipantsOfEventHandler,
-} from "../controllers/ParticipantController";
+} from "@/controllers/ParticipantController";
 
 const router: Router = Router();
 
@@ -29,25 +29,67 @@ router.post("/", createEventHandler);
  *                 type: string
  *                 example: "Meeting"
  *               description:
- *                  type: string
- *                  example: "Interview Schedule"
+ *                 type: string
+ *                 example: "Interview Schedule"
  *               start_time:
- *                 type: datetime
+ *                 type: string
+ *                 format: date-time
  *                 example: "2023-12-12T10:00:00Z"
  *               end_time:
- *                 type: datetime
+ *                 type: string
+ *                 format: date-time
  *                 example: "2023-12-12T11:00:00Z"
  *               time_zone:
  *                 type: string
  *                 example: "America/New_York"
  *               location:
- *                  type: string
- *                  example: "Nepal"
+ *                 type: string
+ *                 example: "Nepal"
+ *               created_by:
+ *                 type: string
+ *                 example: "user123"
+ *               recurrence_rule:
+ *                 type: string
+ *                 example: "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR"
+ *               recurrence_end:
+ *                 type: string
+ *                 format: date-time
+ *                 example: "2023-12-12T10:00:00Z"
+ *
  *     responses:
  *       201:
  *         description: Event created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   example: "d8f15c88-74a2-4b85-b7e4-1fef53c09e3f"
+ *                 title:
+ *                   type: string
+ *                   example: "Meeting"
+ *                 start_time:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2023-12-12T10:00:00Z"
+ *                 end_time:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2023-12-12T11:00:00Z"
+ *                 created_at:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2023-12-01T10:00:00Z"
+ *                 updated_at:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2023-12-01T10:00:00Z"
  *       400:
- *          description: Validation error
+ *         description: Validation error
+ *       500:
+ *         description: Internal server error
  */
 
 router.get("/", listEventHandler);

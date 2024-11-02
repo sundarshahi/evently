@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 
-import { ParticipantServiceFactory } from "../services/ParticipantService";
+import { ParticipantServiceFactory } from "@/services/ParticipantService";
 import {
   eventIdSchema,
   participantSchema,
-} from "../validators/participantValidator";
+} from "@/validators/participantValidator";
 
 const participantService = ParticipantServiceFactory();
 
