@@ -6,6 +6,9 @@ const validTimezones = [
   "America/New_York",
 ] as const;
 
+const rruleRegex =
+  /^(FREQ=(HOURLY|DAILY|WEEKLY|MONTHLY|YEARLY)(;INTERVAL=\d+)?(;UNTIL=\d{8}T\d{6}Z)?(;COUNT=\d+)?(;BYDAY=(MO|TU|WE|TH|FR|SA|SU)(,\s?(MO|TU|WE|TH|FR|SA|SU))*)?;?)+$/;
+
 const utcDateString = z.string().refine(
   (date) => {
     return (
@@ -32,6 +35,20 @@ export const eventSchema = z
       message: "Must be a valid timezone string.",
     }),
     location: z.string().optional(),
+    recurrence_rule: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          return !value || rruleRegex.test(value);
+        },
+        {
+          message:
+            "Invalid. Use in following format (e.g., FREQ=WEEKLY;INTERVAL=7;COUNT=1;UNTIL=20241002T181500Z;BYDAY=SU,MO,TU).",
+        }
+      ),
+    recurrence_end: utcDateString.optional(),
+    created_by: z.string().optional(),
   })
   .superRefine((field, ctx) => {
     const startTime = new Date(field.start_time);

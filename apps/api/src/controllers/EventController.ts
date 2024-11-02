@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
 import { EventInput } from "../types";
-import { EventServiceFactory } from "../services/EventService";
-import { eventSchema } from "../validators/eventValidator";
+import { EventServiceFactory } from "@/services/EventService";
+import { eventSchema } from "@/validators/eventValidator";
 
 const eventService = EventServiceFactory();
 
@@ -25,12 +25,15 @@ export const createEventHandler = async (
     }
 
     if (isValid) {
-      const { start_time, end_time, ...rest } = data;
+      const { start_time, end_time, recurrence_end, created_by, ...rest } =
+        data;
 
       const eventData = {
         ...rest,
         start_time: new Date(start_time),
         end_time: new Date(end_time),
+        ...(recurrence_end && { recurrence_end: new Date(recurrence_end) }),
+        created_by: created_by || "system",
       };
       const event = await eventService.createEvent(eventData);
       return res

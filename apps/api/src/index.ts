@@ -1,8 +1,8 @@
 import { createApp } from "./app";
 
-const port = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 const server = createApp();
 
-server.listen(port, () => {
-  console.log(`api running on ${port}`);
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

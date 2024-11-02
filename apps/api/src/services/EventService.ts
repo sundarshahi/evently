@@ -1,11 +1,18 @@
-import { EventInput, Event } from "../types";
-import { EventRepository } from "../repositories/EventRepository";
-
-import { convertToUTC } from "../utils/datetime";
+import { EventInput } from "../types";
+import { Event } from "@repo/db/client";
+import { convertToUTC } from "@/utils/datetime";
+import { EventRepository } from "@/repositories/EventRepository";
+import { scheduleRecurringEvent } from "@/src/task/eventInstance/scheduler";
 
 interface EventService {
   createEvent(data: EventInput): Promise<void>;
   getAllEvents(skip: number, take: number): Promise<Event[]>;
+  createRecurringInstance(
+    parentEventId: string,
+    startTime: Date,
+    endTime: Date,
+    createdBy: string
+  ): Promise<void>;
 }
 
 export const EventServiceFactory = (): EventService => {
@@ -17,7 +24,7 @@ export const EventServiceFactory = (): EventService => {
     EventRepository.findOverlappingEvents(startTime, endTime, timezone);
 
   const createEvent = async (data: EventInput): Promise<void> => {
-    const { start_time, end_time, time_zone } = data;
+    const { start_time, end_time, time_zone, recurrence_end } = data;
 
     const overlappingEvents = await findOverlappingEvents(
       start_time,
@@ -32,12 +39,34 @@ export const EventServiceFactory = (): EventService => {
     const utcStartTime = convertToUTC(start_time, time_zone);
     const utcEndTime = convertToUTC(end_time, time_zone);
 
-    EventRepository.createEvent({
+    const parentEvent = await EventRepository.createEvent({
       ...data,
       start_time: utcStartTime,
       end_time: utcEndTime,
     });
+
+    if (parentEvent.recurrence_rule && parentEvent.recurrence_end) {
+      await scheduleRecurringEvent(
+        parentEvent,
+        parentEvent.recurrence_rule,
+        parentEvent.recurrence_end
+      );
+    }
   };
+  const createRecurringInstance = async (
+    parentEventId: string,
+    startTime: Date,
+    endTime: Date,
+    createdBy: string
+  ) => {
+    await EventRepository.createEventInstance(
+      parentEventId,
+      startTime,
+      endTime,
+      createdBy
+    );
+  };
+
   const getAllEvents = async (
     skip: number = 0,
     take: number = 10
@@ -45,6 +74,7 @@ export const EventServiceFactory = (): EventService => {
 
   return {
     createEvent,
+    createRecurringInstance,
     getAllEvents,
   };
 };
