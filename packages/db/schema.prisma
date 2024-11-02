@@ -9,17 +9,38 @@ generator client {
 }
 
 model Event {
-  id           String        @id @unique @default(uuid()) @db.Uuid
-  title        String        @db.VarChar(150)
-  description  String?       @db.VarChar(500)
-  start_time   DateTime
-  end_time     DateTime
-  time_zone    String
-  location     String?       @db.VarChar(255)
-  created_at   DateTime      @default(now())
-  updated_at   DateTime      @updatedAt
-  participants Participant[]
+  id              String          @id @unique @default(uuid()) @db.Uuid
+  title           String          @db.VarChar(150)
+  description     String?         @db.VarChar(500)
+  start_time      DateTime
+  end_time        DateTime
+  time_zone       String
+  location        String?         @db.VarChar(255)
+  recurrence_rule String?
+  recurrence_end  DateTime?
+  created_by      String          @default("system")
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+  participants    Participant[]
+  instances       EventInstance[]
 
+  @@index([start_time, end_time])
+  @@index([created_by])
+  @@index([recurrence_end])
+}
+
+model EventInstance {
+  id              String   @id @unique @default(uuid()) @db.Uuid
+  parent_event_id String   @db.Uuid
+  start_time      DateTime
+  end_time        DateTime
+  created_by      String   @default("system")
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  parentEvent Event @relation(fields: [parent_event_id], references: [id])
+
+  @@index([parent_event_id])
   @@index([start_time, end_time])
 }
 
