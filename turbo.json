@@ -14,6 +14,15 @@
      "@repo/db#db-up": {
       "cache": false
     },
+     "@repo/api#dev": {
+      "dependsOn": ["^task-up"],
+      "env": [
+        "NODE_ENV",
+        "PORT",
+        "DATABASE_URL",
+        "BASE_URL"
+      ]
+    },
     "@repo/api#build": {
       "dependsOn": ["^build"],
       "env": [
@@ -56,6 +65,14 @@
     },
     "dev": {
       "cache": false,
+      "persistent": true
+    },
+    "task-up":{
+      "cache": false,
+      "persistent": true
+    },
+    "worker-up":{
+       "cache": false,
       "persistent": true
     },
     "start:prod": {

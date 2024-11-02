@@ -8,10 +8,13 @@
     "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "start": "node -r esbuild-register ./src/index.ts",
-    "start:prod":"node -r esbuild-register ./dist/index.js",
+    "worker-up": "node -r esbuild-register ./src/worker.ts",
+    "start:prod": "node -r esbuild-register ./dist/index.js",
     "prisma": "pnpm --filter @repo/db exec prisma",
     "generate-schemas": "pnpm prisma generate && pnpm prisma format",
-    "dx": "pnpm dev",
+    "task-up": "docker compose up -d || docker-compose up -d",
+    "api-setup": "pnpm task-up && pnpm dev",
+    "dx": "pnpm api-setup",
     "test": "jest --detectOpenHandles"
   },
   "jest": {
@@ -21,15 +24,18 @@
     "@repo/db": "*",
     "@repo/logger": "*",
     "body-parser": "^1.20.2",
+    "bullmq": "^5.22.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "ioredis": "^5.4.1",
     "morgan": "^1.10.0",
+    "rrule": "^2.8.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "zod": "^3.23.8",
-     "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
@@ -51,7 +57,7 @@
     "nodemon": "^3.1.0",
     "supertest": "^6.3.3"
   },
-   "prisma": {
+  "prisma": {
     "schema": "../../../packages/prisma/schema.prisma"
   }
 }

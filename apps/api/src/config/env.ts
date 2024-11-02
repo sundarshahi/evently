@@ -6,6 +6,7 @@ dotenv.config();
 const envSchema = z.object({
   BASE_URL: z.string().url().optional(),
   DATABASE_URL: z.string().url(),
+  REDIS_URL: z.string().url(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
