@@ -16,6 +16,7 @@
       "@/types/*": ["./src/types/*"],
       "@/task/*": ["./src/task/*"],
       "@/utils/*": ["./src/utils/*"],
+      "@/middlewares/*": ["./src/middlewares/*"],
       "@/validators/*": ["./src/validators/*"]
     }
   },

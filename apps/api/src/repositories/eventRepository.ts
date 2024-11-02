@@ -72,6 +72,16 @@ export const EventRepository = {
     });
   },
 
+  countWeeklyEventByUser: async (
+    created_by: string,
+    weekStart: Date
+  ): Promise<number> =>
+    await prisma.event.count({
+      where: {
+        created_by: created_by,
+        created_at: { gte: weekStart },
+      },
+    }),
   findOverlappingEvents: async (
     start: Date,
     end: Date,
@@ -86,9 +96,9 @@ export const EventRepository = {
     });
   },
 
-  async checkOverlappingEventsAndInstances(
+  findOverlappingEventsAndInstances: async (
     timeRanges: { startTime: Date; endTime: Date }[]
-  ): Promise<Event[]> {
+  ): Promise<Event[]> => {
     const orConditions = timeRanges.flatMap(({ startTime, endTime }) => [
       {
         AND: [{ start_time: { lt: endTime } }, { end_time: { gt: startTime } }],

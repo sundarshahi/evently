@@ -1,4 +1,6 @@
 import { Router } from "express";
+
+import { checkEventLimitByCountryAndPlan } from "@/middlewares/EventLimitByContryAndPlan";
 import {
   createEventHandler,
   listEventHandler,
@@ -11,7 +13,7 @@ import {
 
 const router: Router = Router();
 
-router.post("/", createEventHandler);
+router.post("/", checkEventLimitByCountryAndPlan, createEventHandler);
 /**
  * @swagger
  * /api/events:

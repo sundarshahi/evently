@@ -24,7 +24,7 @@ export const worker = createWorker("events", async (job: Job) => {
     }
 
     const overlappingInstances =
-      await EventRepository.checkOverlappingEventsAndInstances(
+      await EventRepository.findOverlappingEventsAndInstances(
         instancesToCreate
       );
 
