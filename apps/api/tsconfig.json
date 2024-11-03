@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "../../apps/api",
     "sourceMap": false,
     "paths": {
       "@/*": ["./src/*"],
