@@ -79,6 +79,10 @@
       "cache": false,
       "persistent": true
     },
+     "build:api": {
+      "cache": false,
+      "persistent": true
+    },
      "//#env-check:common": {
       "cache": false,
       "inputs": ["./.env.example", "./.env"],
