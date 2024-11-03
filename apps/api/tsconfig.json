@@ -4,19 +4,18 @@
     "target": "ES2022",
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src",
     "sourceMap": false,
     "paths": {
-      "@/*": ["*"],
-      "@/config/*": ["config/*"],
-      "@/services/*": ["services/*"],
-      "@/repositories/*": ["repositories/*"],
-      "@/controllers/*": ["controllers/*"],
-      "@/types/*": ["types/*"],
-      "@/task/*": ["task/*"],
-      "@/utils/*": ["utils/*"],
-      "@/middlewares/*": ["middlewares/*"],
-      "@/validators/*": ["validators/*"]
+      "@/*": ["./src/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/repositories/*": ["./src/repositories/*"],
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/task/*": ["./src/task/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/middlewares/*": ["./src/middlewares/*"],
+      "@/validators/*": ["./src/validators/*"]
     }
   },
 
