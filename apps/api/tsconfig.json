@@ -3,8 +3,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "outDir": "./dist",
-    "rootDir": "../api",
+    "rootDir": "./src",
     "sourceMap": false,
+    "moduleResolution": "NodeNext",
     "paths": {
       "@/*": ["./src/*"],
       "@/config/*": ["./src/config/*"],
