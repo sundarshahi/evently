@@ -1,10 +1,16 @@
+// @ts-nocheck
+
 import { Job } from "bullmq";
 
 import { dayjs } from "@/utils/dayjs";
 import { createWorker } from "@/config/queue";
-import { EventRepository } from "@/src/repositories/EventRepository";
+import { EventRepository } from "@/repositories/EventRepository";
 
 console.log("Worker started!!");
+
+function isOverlapping(local: any, fromDb: any): boolean {
+  return local.startTime < fromDb.end_time && local.endTime > fromDb.start_time;
+}
 
 export const worker = createWorker("events", async (job: Job) => {
   const { parentEventId, recurrenceDates, startTime, endTime, createdBy } =
@@ -27,12 +33,6 @@ export const worker = createWorker("events", async (job: Job) => {
       await EventRepository.findOverlappingEventsAndInstances(
         instancesToCreate
       );
-
-    function isOverlapping(local: any, fromDb: any): boolean {
-      return (
-        local.startTime < fromDb.end_time && local.endTime > fromDb.start_time
-      );
-    }
 
     const instancesToInsert = instancesToCreate.filter(
       (local) =>

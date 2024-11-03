@@ -1,8 +1,8 @@
 import { EventInput } from "../types";
 import { Event } from "@repo/db/client";
 import { convertToUTC } from "@/utils/datetime";
-import { EventRepository } from "@/src/repositories/EventRepository";
-import { scheduleRecurringEvent } from "@/src/task/eventInstance/scheduler";
+import { EventRepository } from "@/repositories/EventRepository";
+import { scheduleRecurringEvent } from "@/task/eventInstance/scheduler";
 
 interface EventService {
   createEvent(data: EventInput): Promise<void>;
@@ -24,7 +24,7 @@ export const EventServiceFactory = (): EventService => {
     EventRepository.findOverlappingEvents(startTime, endTime, timezone);
 
   const createEvent = async (data: EventInput): Promise<void> => {
-    const { start_time, end_time, time_zone, recurrence_end } = data;
+    const { start_time, end_time, time_zone } = data;
 
     const overlappingEvents = await findOverlappingEvents(
       start_time,

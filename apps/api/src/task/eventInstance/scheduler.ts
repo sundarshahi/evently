@@ -1,7 +1,7 @@
 import { Event } from "@repo/db/client";
 
 import { eventQueue } from "@/config/queue";
-import { parseRecurringDates } from "@/src/utils/parse-dates";
+import { parseRecurringDates } from "@/utils/parse-dates";
 
 export const scheduleRecurringEvent = async (
   event: Event,
