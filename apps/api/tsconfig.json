@@ -7,16 +7,16 @@
     "baseUrl": ".",
     "sourceMap": false,
     "paths": {
-      "@/*": ["src/*"],
-      "@/config/*": ["src/config/*"],
-      "@/services/*": ["src/services/*"],
-      "@/repositories/*": ["src/repositories/*"],
-      "@/controllers/*": ["src/controllers/*"],
-      "@/types/*": ["src/types/*"],
-      "@/task/*": ["src/task/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/middlewares/*": ["src/middlewares/*"],
-      "@/validators/*": ["src/validators/*"]
+      "@/src/*": ["./src/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/repositories/*": ["./src/repositories/*"],
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/task/*": ["./src/task/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/middlewares/*": ["./src/middlewares/*"],
+      "@/validators/*": ["./src/validators/*"]
     }
   },
 
