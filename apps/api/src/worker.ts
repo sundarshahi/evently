@@ -2,7 +2,7 @@ import { Job } from "bullmq";
 
 import { dayjs } from "@/utils/dayjs";
 import { createWorker } from "@/config/queue";
-import { EventRepository } from "@/repositories/EventRepository";
+import { EventRepository } from "@/src/repositories/eventRepository";
 
 console.log("Worker started!!");
 

@@ -2,7 +2,7 @@ import { Participant } from "@repo/db/client";
 
 import { ParticipantInput } from "../types";
 import { ParticipantRepository } from "@/repositories/ParticipantRepository";
-import { EventRepository } from "@/repositories/EventRepository";
+import { EventRepository } from "@/src/repositories/eventRepository";
 
 interface ParticipantService {
   createParticipant(data: ParticipantInput): Promise<Participant>;

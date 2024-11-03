@@ -1,7 +1,7 @@
 import { EventInput } from "../types";
 import { Event } from "@repo/db/client";
 import { convertToUTC } from "@/utils/datetime";
-import { EventRepository } from "@/repositories/EventRepository";
+import { EventRepository } from "@/src/repositories/eventRepository";
 import { scheduleRecurringEvent } from "@/src/task/eventInstance/scheduler";
 
 interface EventService {
