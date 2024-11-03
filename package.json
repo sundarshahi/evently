@@ -10,7 +10,7 @@
     "dev": "turbo run dev",
     "dev:api": "turbo run dev --filter=./apps/api",
     "build:api": "turbo run build:api --filter=./apps/api",
-    "start:api": "turbo run start:prod --filter=./apps/api...",
+    "start:api": "turbo run start:prod --filter=./apps/api",
     "env-check:common": "dotenv-checker --schema .env.example --env .env",
     "dx": "turbo run dx",
     "worker": "turbo run worker-up --filter=./apps/api...",
