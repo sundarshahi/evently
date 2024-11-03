@@ -24,7 +24,7 @@
       ]
     },
     "@repo/api#build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^postinstall"],
       "env": [
         "NODE_ENV",
         "PORT",
