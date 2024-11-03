@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { Request, Response, NextFunction } from "express";
 
-import { EventRepository } from "@/src/repositories/eventRepository";
+import { EventRepository } from "@/src/repositories/EventRepository";
 
 const COUNTRY_LIMITS: Record<string, number> = {
   IN: 3,
