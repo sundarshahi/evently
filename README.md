@@ -131,7 +131,7 @@ pnpm dx
 
 1. Copy and paste your `DATABASE_URL` to `.env`.
 
-1. Set up the database using the Prisma schema (found in `packages/prisma/schema.prisma`)
+1. Set up the database using the Prisma schema (found in `packages/db/schema.prisma`)
 
    In a development environment, run:
 
