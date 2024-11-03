@@ -6,10 +6,11 @@ dotenv.config({ path: "../../.env" });
 const envSchema = z.object({
   BASE_URL: z.string().url().optional(),
   DATABASE_URL: z.string().url(),
-  REDIS_URL: z.string().url(),
+  REDIS_URL: z.string(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
+console.log("env", parsedEnv?.data);
 
 if (!parsedEnv.success) {
   console.error("❌ Invalid environment variables:", parsedEnv.error.format());
